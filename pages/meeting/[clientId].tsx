@@ -60,6 +60,7 @@ const Meeting: NextPage = ({ meeting, attendee }) => {
         toggleVideo={toggleVideo}
         toggleMute={toggleMute}
         toggleAudio={toggleAudio}
+        leaveMeeting={() => {}}
       />
       <div style={{
         width: '100%',
