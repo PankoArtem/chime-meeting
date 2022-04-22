@@ -9,11 +9,11 @@ This is a boilerplate project for TypeScript development with CDK.
   - change entry file name
 - .vscode/setting.json
   - change envrionment variables
-- bin/aws-cdk-boilerplate.ts
+- bin/chime-app.ts
   - change file name and stack name
-- lib/aws-cdk-boilerplate-stack.ts
+- lib/chime-stack.ts
   - change file name and class
-- test/aws-cdk-boilerplate.ts
+- test/chime-app.ts
   - change file name and test methods
 - package.json
   - change project name

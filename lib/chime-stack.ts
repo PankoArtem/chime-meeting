@@ -12,16 +12,16 @@ import {
   CfnOutput,
 } from '@aws-cdk/core'
 
-export class AwsCdkBoilerplateStack extends Stack {
+export class ChimeStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props)
 
-    const handler = new NodejsFunction(this, 'fizzbuzz-func', {
-      entry: 'src/lambda/handlers/fizzbuzz.ts',
+    const handler = new NodejsFunction(this, 'chime-func', {
+      entry: 'src/lambda/handlers/chime.ts',
     })
     const api = new HttpApi(this, 'api', {
-      apiName: 'fizzbuzz',
-      description: 'sample fizzbuzz api',
+      apiName: 'chime',
+      description: 'sample chime api',
       corsPreflight: {
         allowHeaders: ['Authorization'],
         allowMethods: [
@@ -38,8 +38,8 @@ export class AwsCdkBoilerplateStack extends Stack {
       },
     })
     api.addRoutes({
-      path: '/fizzbuzz',
-      methods: [HttpMethod.GET],
+      path: '/join',
+      methods: [HttpMethod.POST],
       integration: new LambdaProxyIntegration({ handler }),
     })
 
