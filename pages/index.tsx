@@ -30,9 +30,13 @@ const Home: NextPage = () => {
   };
 
   const handleCreateMeetingClick = async () => {
-    const response = await meetingApi.createMeeting(clientName);
-    const { Info } = response.data;
-    setMeeting(Info.Meeting.Meeting);
+    try {
+      const response = await meetingApi.createMeeting(clientName);
+      const { Info } = response.data;
+      setMeeting(Info.Meeting.Meeting);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleJoinMeetingClick = () => {

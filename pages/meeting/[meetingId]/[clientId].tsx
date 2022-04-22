@@ -24,18 +24,22 @@ const MeetingPage: NextPage = () => {
 
   useEffect(() => {
     const joinMeeting = async () => {
-      const response = await meetingApi.joinMeeting(clientId as string, meetingId as string);
+      try {
+        const response = await meetingApi.joinMeeting(clientId as string, meetingId as string);
 
-      const { Info: { Meeting, Attendee } } = response.data;
+        const { Info: { Meeting, Attendee } } = response.data;
 
-      const meetingSessionConfiguration = new MeetingSessionConfiguration(
-        Meeting.Meeting,
-        Attendee.Attendee,
-      );
+        const meetingSessionConfiguration = new MeetingSessionConfiguration(
+          Meeting.Meeting,
+          Attendee.Attendee,
+        );
 
-      await meetingManager.join(meetingSessionConfiguration);
+        await meetingManager.join(meetingSessionConfiguration);
 
-      await meetingManager.start();
+        await meetingManager.start();
+      } catch (e) {
+        console.error(e);
+      }
     };
     joinMeeting();
   }, [meetingId, clientId]);
