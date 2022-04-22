@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  url: 'http://localhost:8080',
-  transformResponse: (response) => response.data,
+  baseURL: 'http://localhost:8080',
 });
 
 export default {

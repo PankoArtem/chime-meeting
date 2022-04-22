@@ -4,12 +4,13 @@ import { useRouter } from 'next/router';
 import {
   Flex, FormField, Input, PrimaryButton,
 } from 'amazon-chime-sdk-component-library-react';
-import axios from 'axios';
+import { CreateMeetingResponse } from 'amazon-chime-sdk-component-library-react/lib/types';
+import meetingApi from '../src/axios/meetingApi';
 
 const Home: NextPage = () => {
   const router = useRouter();
 
-  const [meeting, setMeeting] = useState();
+  const [meeting, setMeeting] = useState<CreateMeetingResponse & {MeetingId: string}>();
   const [clientName, setClientName] = useState('');
 
   const [existingMeetingId, setExistingMeetingId] = useState('');
@@ -29,13 +30,13 @@ const Home: NextPage = () => {
   };
 
   const handleCreateMeetingClick = async () => {
-    const response = await axios.post(`http://localhost:8080/join?clientId=${clientName}`);
+    const response = await meetingApi.createMeeting(clientName);
     const { Info } = response.data;
     setMeeting(Info.Meeting.Meeting);
   };
 
   const handleJoinMeetingClick = () => {
-    router.push(`/meeting/${meeting.MeetingId}`);
+    router.push(`/meeting/${existingMeetingId}/${clientName}`);
   };
 
   return (

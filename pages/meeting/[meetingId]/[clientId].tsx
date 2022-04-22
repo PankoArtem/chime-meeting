@@ -1,7 +1,7 @@
-import { NextPage, NextPageContext } from 'next';
+import { NextPage } from 'next';
 import { useEffect } from 'react';
-import axios from 'axios';
 import {
+  Heading,
   LocalVideo, useLocalAudioOutput,
   useLocalVideo,
   useMeetingManager, useToggleLocalMute,
@@ -9,49 +9,45 @@ import {
 } from 'amazon-chime-sdk-component-library-react';
 import { MeetingSessionConfiguration } from 'amazon-chime-sdk-js';
 import Head from 'next/head';
-import CustomControlBar from '../../src/components/CustomControlBar/ControlBar';
+import { useRouter } from 'next/router';
+import CustomControlBar from '../../../src/components/CustomControlBar/ControlBar';
+import meetingApi from '../../../src/axios/meetingApi';
 
-// TODO resolve axios config working with SSR
-export async function getServerSideProps({ query: { clientId } } : NextPageContext) {
-  const response = await axios.post(`http://localhost:8080/join?clientId=${clientId}`);
-
-  const { Info } = response.data;
-
-  return {
-    props: {
-      meeting: Info.Meeting.Meeting,
-      attendee: Info.Attendee.Attendee,
-    },
-  };
-}
-
-const Meeting: NextPage = ({ meeting, attendee }) => {
+const MeetingPage: NextPage = () => {
   const { toggleVideo, isVideoEnabled } = useLocalVideo();
   const { toggleAudio, isAudioOn } = useLocalAudioOutput();
   const { muted, toggleMute } = useToggleLocalMute();
+
+  const { query: { meetingId, clientId } } = useRouter();
 
   const meetingManager = useMeetingManager();
 
   useEffect(() => {
     const joinMeeting = async () => {
-      const meetingSessionConfiguration = new MeetingSessionConfiguration(meeting, attendee);
+      const response = await meetingApi.joinMeeting(clientId as string, meetingId as string);
+
+      const { Info: { Meeting, Attendee } } = response.data;
+
+      const meetingSessionConfiguration = new MeetingSessionConfiguration(
+        Meeting.Meeting,
+        Attendee.Attendee,
+      );
 
       await meetingManager.join(meetingSessionConfiguration);
 
       await meetingManager.start();
     };
     joinMeeting();
-  }, [meeting, attendee]);
+  }, [meetingId, clientId]);
 
   return (
     <div style={{
       height: '100vh',
       display: 'flex',
-      alignItems: 'center',
     }}
     >
       <Head>
-        <title>ARAB ZOOM ZOOM</title>
+        <title>ZOOM ZOOM</title>
       </Head>
       <CustomControlBar
         isVideoEnabled={isVideoEnabled}
@@ -68,6 +64,9 @@ const Meeting: NextPage = ({ meeting, attendee }) => {
         height: '80%',
       }}
       >
+        <Heading level={2} tag="p">
+          MEETING
+        </Heading>
         <VideoGrid layout="featured">
           <VideoTile
             style={{
@@ -84,7 +83,7 @@ const Meeting: NextPage = ({ meeting, attendee }) => {
             nameplate="Tile 2"
           />
           <LocalVideo
-            nameplate="Tile 3"
+            nameplate={clientId as string}
           />
         </VideoGrid>
       </div>
@@ -92,4 +91,4 @@ const Meeting: NextPage = ({ meeting, attendee }) => {
   );
 };
 
-export default Meeting;
+export default MeetingPage;
