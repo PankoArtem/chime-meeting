@@ -12,6 +12,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import CustomControlBar from '../../../src/components/CustomControlBar/ControlBar';
 import meetingApi from '../../../src/axios/meetingApi';
+import styles from '../../../styles/Meeting.module.css';
 
 const MeetingPage: NextPage = () => {
   const { toggleVideo, isVideoEnabled } = useLocalVideo();
@@ -45,10 +46,7 @@ const MeetingPage: NextPage = () => {
   }, [meetingId, clientId]);
 
   return (
-    <div style={{
-      height: '100vh',
-      display: 'flex',
-    }}
+    <div className={styles.container}
     >
       <Head>
         <title>ZOOM ZOOM</title>
@@ -62,12 +60,7 @@ const MeetingPage: NextPage = () => {
         toggleAudio={toggleAudio}
         leaveMeeting={() => {}}
       />
-      <div style={{
-        width: '100%',
-        padding: '0 20px',
-        height: '80%',
-      }}
-      >
+      <div className={styles.gridContainer}>
         <Heading level={2} tag="p">
           MEETING
         </Heading>

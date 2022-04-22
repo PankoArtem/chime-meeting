@@ -6,6 +6,7 @@ import {
 } from 'amazon-chime-sdk-component-library-react';
 import { CreateMeetingResponse } from 'amazon-chime-sdk-component-library-react/lib/types';
 import meetingApi from '../src/axios/meetingApi';
+import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -44,10 +45,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div style={{
-      height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-    }}
-    >
+    <div className={styles.container}>
       <Flex layout="stack">
         <FormField
           field={Input}
@@ -58,7 +56,7 @@ const Home: NextPage = () => {
           layout="stack"
         />
         <PrimaryButton label="Create Meeting" onClick={handleCreateMeetingClick} />
-        <span style={{ padding: '20px 0', textAlign: 'center' }}>or</span>
+        <span className={styles.span}>or</span>
         <FormField
           field={Input}
           label="Join your friends with meeting ID"

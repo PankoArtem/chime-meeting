@@ -1,0 +1,10 @@
+.container {
+    height: 100vh;
+    display: flex;
+}
+
+.gridContainer {
+    width: 100%;
+    padding: 0 20px;
+    height: 80%;
+}
