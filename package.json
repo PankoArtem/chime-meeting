@@ -9,9 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/styled-components": "^5.1.25",
+    "amazon-chime-sdk-component-library-react": "^3.0.0",
+    "amazon-chime-sdk-js": "^3.0.0",
+    "axios": "^0.26.1",
     "next": "12.1.5",
     "react": "18.0.0",
-    "react-dom": "18.0.0"
+    "react-dom": "18.0.0",
+    "styled-components": "^5.3.5",
+    "styled-system": "^5.1.5"
   },
   "devDependencies": {
     "@types/node": "17.0.25",
